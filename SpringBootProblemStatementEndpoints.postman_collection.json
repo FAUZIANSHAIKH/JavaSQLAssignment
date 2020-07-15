@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "e064115a-bdf3-402a-a888-f8274a018e89",
+		"name": "SpringBootProblemStatementEndpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/feedEmployeeData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/feedEmployeeData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"feedEmployeeData"
+					]
+				},
+				"description": "Feed the employee data from csv file to mysql table"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/employees",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees"
+					]
+				},
+				"description": "Get all the employees"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/employees/677509",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/677509",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"677509"
+					]
+				},
+				"description": "Get all the employees by EmpId"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/employees/place/Denver",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/place/Denver",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"place",
+						"Denver"
+					]
+				},
+				"description": "Get the list of Employees with given place"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/employees/place/Denver/salary/50",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/place/Denver/salary/50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"place",
+						"Denver",
+						"salary",
+						"50"
+					]
+				},
+				"description": "Update each record by increasing their salary y percentage for employees that have place matching with place path param."
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/employees/totalSalary/Denver",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/totalSalary/Denver",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"totalSalary",
+						"Denver"
+					]
+				},
+				"description": "Return the totalSalary of employees given place"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/employees/totalSalary/supervisor/193819",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/totalSalary/supervisor/193819",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"totalSalary",
+						"supervisor",
+						"193819"
+					]
+				},
+				"description": "Return totalSalary of Employees given supervisorId"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/employees/salaryRange/Employee",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/salaryRange/Employee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"salaryRange",
+						"Employee"
+					]
+				},
+				"description": "Return the range of salaries for a given title"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

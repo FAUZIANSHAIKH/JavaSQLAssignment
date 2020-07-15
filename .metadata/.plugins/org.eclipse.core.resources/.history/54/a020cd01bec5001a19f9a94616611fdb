@@ -1,0 +1,12 @@
+package com.example.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.repository.EmployeeDTO;
+
+public class EmployeeService {
+	
+	@Autowired
+	private EmployeeDTO edto;
+	
+}

@@ -1,0 +1,42 @@
+package com.example.service;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.model.Employee;
+import com.example.repository.EmployeeDTO;
+
+@Service
+public class EmployeeService {
+	
+	@Autowired
+	private EmployeeDTO edto;
+	
+	String line="";
+	public void saveEmployeeData() {
+		
+		try {
+			BufferedReader br=new BufferedReader(new FileReader("src/main/resources/employee.csv"));
+			while((line=br.readLine())!=null) {
+				String [] data=line.split(",");
+				Employee e=new Employee();
+				e.setFirstName(firstName);
+				e.setLastName(lastName);
+				e.setGender(gender);
+				e.setPlace(place);
+				e.setEmail(email);
+				e.setPercentage(percentage);
+				e.setSalary(salary);
+				
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

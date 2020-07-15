@@ -1,0 +1,6 @@
+spring.datasource.url = jdbs:mysql://localhost:3306/playjava?useSSL=false
+spring.datasource.username = root
+spring.datasource.password = playjava
+spring.jpa.show-sql = true
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+spring.jpa.hibernate.ddl-auto=create
