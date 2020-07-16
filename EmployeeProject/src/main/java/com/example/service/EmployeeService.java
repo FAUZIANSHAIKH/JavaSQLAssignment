@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ import javax.transaction.Transactional;
 public class EmployeeService {
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
 	private EmployeeDTO edto;
 	
 	String line="";
@@ -39,7 +40,6 @@ public class EmployeeService {
 				e.setTitle(data[7]);
 				e.setSupervisorId(data[8]);
 				edto.save(e);
-				
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -72,6 +72,72 @@ public class EmployeeService {
 
 	public Employee updateEmployee(Employee employee){
 		return edto.save(employee);
+	}
+
+	public List<Employee> getSalary(String place,Double percentage){
+		List<Employee> empData = getEmployeeByPlace(place);
+		List<Employee> data = new ArrayList<>();
+		Iterator<Employee> empIterator = empData.iterator();
+		while (empIterator.hasNext()) {
+			Employee currentEmp = empIterator.next();
+			double salary = currentEmp.getSalary();
+			salary = salary + (salary * (percentage / 100));
+			System.out.println("SALARY---------------------" + salary);
+			currentEmp.setSalary(salary);
+			System.out.println("CURRENT_EMPLOYEE-----------------" + currentEmp);
+			System.out.println("UPDATE---------------------------------");
+			System.out.println(updateEmployee(currentEmp));
+			data.add(updateEmployee(currentEmp));
+//			empIterator.next();
+		}
+		return data;
+	}
+
+	public Double getTotalSalaryByPlace(String place){
+		List<Employee> empData = getEmployeeByPlace(place);
+		double totalSalary = 0;
+		Iterator<Employee> empIterator = empData.iterator();
+		while (empIterator.hasNext()) {
+			Employee currentEmp = empIterator.next();
+			double salary = currentEmp.getSalary();
+			totalSalary += salary;
+		}
+		System.out.println("DATA-------------------------" + totalSalary);
+		return totalSalary;
+	}
+
+	public Double getTotalSalaryBySupervisorId(String supervisorId){
+		List<Employee> empData = getEmployeeBySupervisorId(supervisorId);
+		double totalSalary = 0;
+		Iterator<Employee> empIterator = empData.iterator();
+		while (empIterator.hasNext()) {
+			Employee currentEmp = empIterator.next();
+			double salary = currentEmp.getSalary();
+			totalSalary += salary;
+		}
+		System.out.println("DATA-------------------------" + totalSalary);
+		return totalSalary;
+	}
+
+	public List<Double> getSalaryRange(String title){
+		List<Employee> empData = getEmployeeByTitle(title);
+		List<Double> data = new ArrayList<>();
+		double minSalary = Double.POSITIVE_INFINITY;
+		double maxSalary = 0;
+		if (empData.isEmpty()) {
+			return null;
+		}
+		Iterator<Employee> empIterator = empData.iterator();
+		while (empIterator.hasNext()) {
+			Employee emp = empIterator.next();
+			double salary = emp.getSalary();
+			minSalary = Math.min(minSalary, salary);
+			maxSalary = Math.max(maxSalary, salary);
+
+		}
+		data.add(minSalary);
+		data.add(maxSalary);
+		return data;
 	}
 
 //	@Transactional

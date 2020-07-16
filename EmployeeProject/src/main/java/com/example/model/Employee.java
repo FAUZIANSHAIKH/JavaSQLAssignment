@@ -11,18 +11,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames = {"empId" , "email"})})
+@Table
 public class Employee {
 
 	@Id
 	@GeneratedValue
 	private int id;
-	@Column(name="empId")
+
 	private String empId;
 	private String firstName;
 	private String lastName;
 	private String gender;
-	@Column(name="email")
+
 	private String email;
 	private double salary;
 	private String place;
