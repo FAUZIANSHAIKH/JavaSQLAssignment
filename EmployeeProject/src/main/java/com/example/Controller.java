@@ -38,6 +38,11 @@ public class Controller {
 		return service.getEmployeeByEmpId(empId);
 	}
 
+	@GetMapping("/employees/supervisorId/{supervisorId}")
+	public List<Employee> findEmployeeBySupervisorId(@PathVariable String supervisorId) {
+		return (List<Employee>) service.getEmployeeBySupervisorId(supervisorId);
+	}
+
 	@PutMapping("/employees/place/{place}/salary/{percentage}")
 	@ResponseBody
 	@CachePut(value="employees", key="#place")
@@ -62,28 +67,14 @@ public class Controller {
 		return data;
 	}
 
-//	@GetMapping("/employees/supervisees/{supervisorId}")
-//	public List<String> findSuperviseesBySupervisorId(@PathVariable String supervisorId) {
-//		System.out.println("SUPERVISOR "+supervisorId);
-//		Employee empData =  service.getEmployeeByEmpId(supervisorId);
-//		System.out.println(empData.getEmpId());
-//		List<String> data = new ArrayList<>();
-////		if (empData.isEmpty()) {
-////			return null;
-////		}
-////		Iterator<Employee> empIterator = empData.iterator();
-////		while (empIterator.hasNext()) {
-////			Employee emp = empIterator.next();
-////			if(service.getEmployeeBySupervisorId(empData.getEmpId())!= null)	{
-////
-////				data.add(supervisorId);
-////				findSuperviseesBySupervisorId(supervisorId);
-////				System.out.println("DATA============"+data);
-////			}
-//
-//		System.out.println("QUEUE-----------------"+data);
-//		return data;
-//	}
+	@GetMapping("/employees/supervisees/{supervisorId}")
+	public List<Employee> findSuperviseesBySupervisorId(@PathVariable String supervisorId) {
+		EmployeeService.data.clear();
+		List<Employee> emp = service.getEmployeeBySupervisorId(supervisorId);
+		service.getHirarchy(emp);
+		System.out.println("SuperVisor---------------"+EmployeeService.data);
+		return EmployeeService.data;
+	}
 
 
 	//SELECT e.emp_id 'Emp_Id', e.last_name 'Employee', m.emp_id 'Mgr_Id', m.last_name 'Manager'

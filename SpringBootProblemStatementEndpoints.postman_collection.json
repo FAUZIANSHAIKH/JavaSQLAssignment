@@ -185,6 +185,28 @@
 				"description": "Return the range of salaries for a given title"
 			},
 			"response": []
+		},
+		{
+			"name": "http://localhost:8080/employees/supervisees/2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/supervisees/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"supervisees",
+						"2"
+					]
+				},
+				"description": "Get Hierarchy of Employees by supervisorId"
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

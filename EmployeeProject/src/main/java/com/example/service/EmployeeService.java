@@ -18,18 +18,20 @@ import com.example.repository.EmployeeDTO;
 import javax.transaction.Transactional;
 
 @Service
-public class EmployeeService {
-	
+public class EmployeeService<data> {
+
 	@Autowired
 	private EmployeeDTO edto;
-	
-	String line="";
+
+	String line = "";
+	public static List<Employee> data = new ArrayList<>();
+
 	public void saveEmployeeData() {
 		try {
-			BufferedReader br=new BufferedReader(new FileReader("src/main/resources/employee.csv"));
-			while((line=br.readLine())!=null) {
-				String [] data=line.split(",");
-				Employee e=new Employee();
+			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/employee.csv"));
+			while ((line = br.readLine()) != null) {
+				String[] data = line.split(",");
+				Employee e = new Employee();
 				e.setEmpId(data[0]);
 				e.setFirstName(data[1]);
 				e.setLastName(data[2]);
@@ -47,34 +49,34 @@ public class EmployeeService {
 		}
 	}
 
-	public List<Employee> getEmployees(){
+	public List<Employee> getEmployees() {
 		return (List<Employee>) edto.findAll();
 	}
 
-	public List<Employee> getEmployeeByPlace(String place){
-		System.out.println("PLACE-------"+place);
+	public List<Employee> getEmployeeByPlace(String place) {
+		System.out.println("PLACE-------" + place);
 		return (List<Employee>) edto.findByPlace(place);
 	}
 
 
-	public List<Employee> getEmployeeBySupervisorId(String supervisorId){
-		System.out.println("SupervisorId-------"+supervisorId);
+	public List<Employee> getEmployeeBySupervisorId(String supervisorId) {
+		System.out.println("SupervisorId-------" + supervisorId);
 		return (List<Employee>) edto.findBySupervisorId(supervisorId);
 	}
 
-	public Employee getEmployeeByEmpId(String empId){
+	public Employee getEmployeeByEmpId(String empId) {
 		return edto.findByEmpId(empId);
 	}
 
-	public List<Employee> getEmployeeByTitle(String title){
+	public List<Employee> getEmployeeByTitle(String title) {
 		return (List<Employee>) edto.findByTitle(title);
 	}
 
-	public Employee updateEmployee(Employee employee){
+	public Employee updateEmployee(Employee employee) {
 		return edto.save(employee);
 	}
 
-	public List<Employee> getSalary(String place,Double percentage){
+	public List<Employee> getSalary(String place, Double percentage) {
 		List<Employee> empData = getEmployeeByPlace(place);
 		List<Employee> data = new ArrayList<>();
 		Iterator<Employee> empIterator = empData.iterator();
@@ -93,7 +95,7 @@ public class EmployeeService {
 		return data;
 	}
 
-	public Double getTotalSalaryByPlace(String place){
+	public Double getTotalSalaryByPlace(String place) {
 		List<Employee> empData = getEmployeeByPlace(place);
 		double totalSalary = 0;
 		Iterator<Employee> empIterator = empData.iterator();
@@ -106,7 +108,7 @@ public class EmployeeService {
 		return totalSalary;
 	}
 
-	public Double getTotalSalaryBySupervisorId(String supervisorId){
+	public Double getTotalSalaryBySupervisorId(String supervisorId) {
 		List<Employee> empData = getEmployeeBySupervisorId(supervisorId);
 		double totalSalary = 0;
 		Iterator<Employee> empIterator = empData.iterator();
@@ -119,7 +121,7 @@ public class EmployeeService {
 		return totalSalary;
 	}
 
-	public List<Double> getSalaryRange(String title){
+	public List<Double> getSalaryRange(String title) {
 		List<Employee> empData = getEmployeeByTitle(title);
 		List<Double> data = new ArrayList<>();
 		double minSalary = Double.POSITIVE_INFINITY;
@@ -140,19 +142,28 @@ public class EmployeeService {
 		return data;
 	}
 
-//	@Transactional
-//	public void getHirerchy(int id){
-//		result = String query = "WITH EmpCTE AS(Select empId,firstName,supervisorId From employee " +
-//				"Where empId = ? " +
-//				"UNION ALL " +
-//				"Select employee.empId , employee.firstName, employee.supervisorId From employee " +
-//				"JOIN " +
-//				"EmpCTE ON employee.empId = EmpCTE.supervisorId) " +
-//				"Select E1.firstName, ISNULL(E2.firstName, 'No Boss') as ManagerName " +
-//				"From EmpCTE E1 " +
-//				"LEFT Join " +
-//				"EmpCTE E2 ON E1.supervisorId = E2.empId";
-//		jdbcTemplate.query(query,id);
-//
-//	}
+	public void getHirarchy(List<Employee> supervisorId) {
+		System.out.println("SUPERVISOR ------------------------" + supervisorId);
+		//Employee empData = getEmployeeByEmpId(supervisorId);
+		for (Employee e : supervisorId){
+			data.add(e);
+			System.out.println("Data-----------"+e);
+		}
+		if (supervisorId.size() == 0) {
+			return;
+		}
+		System.out.println("EMPDATA----------------------" + data);
+		System.out.println("EMPDataId------------------------------------");
+		Iterator<Employee> empIterator = supervisorId.iterator();
+		while (empIterator.hasNext()) {
+			Employee emp = empIterator.next();
+			System.out.println("----------------------------"+getEmployeeBySupervisorId(emp.getEmpId()));
+			if (getEmployeeBySupervisorId(emp.getEmpId()) != null) {
+//				System.out.println("DATA============" + data);
+				getHirarchy(getEmployeeBySupervisorId(emp.getEmpId()));
+			}
+			return;
+
+		}
+	}
 }
